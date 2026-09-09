@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<robot name="robotic_arm">
+
+  <!-- Virtual joint anchors the arm base to the world -->
+  <virtual_joint name="virtual_joint" type="fixed"
+                 parent_frame="world" child_link="base_link"/>
+
+  <!-- ===== ARM planning group: 5 DOF (joints 1-5) ===== -->
+  <group name="arm">
+    <joint name="joint_1"/>  <!-- base yaw      -->
+    <joint name="joint_2"/>  <!-- shoulder pitch -->
+    <joint name="joint_3"/>  <!-- elbow pitch    -->
+    <joint name="joint_4"/>  <!-- wrist yaw      -->
+    <joint name="joint_5"/>  <!-- gripper base   -->
+  </group>
+
+  <!-- ===== GRIPPER planning group (gears) ===== -->
+  <group name="gripper">
+    <joint name="joint_6"/>
+  </group>
+
+  <!-- End effector -->
+  <end_effector name="gripper_ee" parent_link="gripper_base_link"
+                group="gripper" parent_group="arm"/>
+
+  <!-- Named poses for the arm -->
+  <group_state name="home" group="arm">
+    <joint name="joint_1" value="0"/>
+    <joint name="joint_2" value="0"/>
+    <joint name="joint_3" value="0"/>
+    <joint name="joint_4" value="0"/>
+    <joint name="joint_5" value="0"/>
+  </group_state>
+
+  <group_state name="ready" group="arm">
+    <!-- Physical servo pose: ch10=110°, ch11=61°, ch12=107°, ch13=105°, ch14=57° -->
+    <joint name="joint_1" value="0"/>
+    <joint name="joint_2" value="-0.8552"/>
+    <joint name="joint_3" value="1.69297"/>
+    <joint name="joint_4" value="-0.08727"/>
+    <joint name="joint_5" value="-0.7505"/>
+  </group_state>
+
+  <!-- Named gripper poses -->
+  <group_state name="open" group="gripper">
+    <!-- Servo 15 physical 143° -->
+    <joint name="joint_6" value="0.9250"/>
+  </group_state>
+  <group_state name="close" group="gripper">
+    <!-- Servo 15 physical 57° -->
+    <joint name="joint_6" value="-0.5760"/>
+  </group_state>
+
+  <!-- Disable self-collision between adjacent links -->
+  <disable_collisions link1="base_link"        link2="waist_link"         reason="Adjacent"/>
+  <disable_collisions link1="waist_link"        link2="arm_01_link"        reason="Adjacent"/>
+  <disable_collisions link1="arm_01_link"       link2="arm_02_link"        reason="Adjacent"/>
+  <disable_collisions link1="arm_02_link"       link2="arm_03_link"        reason="Adjacent"/>
+  <disable_collisions link1="arm_03_link"       link2="gripper_base_link"  reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="gear_link"          reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="gear2_link"         reason="Adjacent"/>
+  <disable_collisions link1="base_link"         link2="shoulder_servo_link" reason="Adjacent"/>
+  <disable_collisions link1="waist_link"        link2="shoulder_servo_link" reason="Adjacent"/>
+  <disable_collisions link1="arm_02_link"       link2="elbow_servo_link"   reason="Adjacent"/>
+  <disable_collisions link1="arm_02_link"       link2="wrist_servo_link"   reason="Adjacent"/>
+  <disable_collisions link1="arm_03_link"       link2="arm03_servo_link"   reason="Adjacent"/>
+  <disable_collisions link1="arm_03_link"       link2="wrist_servo_link"   reason="Adjacent"/>
+  <disable_collisions link1="gripper_base_link" link2="gripper_servo_link" reason="Adjacent"/>
+  <disable_collisions link1="gear_link"         link2="gear2_link"         reason="Adjacent"/>
+
+</robot>
