@@ -1,4 +1,4 @@
-# 5DOF-manipulator--raspberry-pi-5
+# 5DOF-manipulator- Raspberry-pi-5
 A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, MoveIt 2, RViz, and real hardware control.
 
 ## Project Overview
@@ -8,7 +8,7 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 Add an image of the physical robotic arm here:
 
 ```markdown
-![Physical Robotic Arm](images/physical_robot.jpg)
+![Physical Robotic Arm](ezgif-frame-001.jpg)
 ```
 
 Add a GIF of the physical robot moving here:
