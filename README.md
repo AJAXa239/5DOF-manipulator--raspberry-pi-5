@@ -4,8 +4,9 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 ## Project Overview
 
 ## Physical Robot Demonstration
+
 <p align="center">
-  <img src="ezgif-frame-001.jpg)" width="500" alt="5DOF-manipulator- Raspberry-pi-5"/>
+  <img src="ezgif-frame-001.jpg" width="500" alt="5DOF Manipulator - Raspberry Pi 5">
 </p>
 
 # Demo
