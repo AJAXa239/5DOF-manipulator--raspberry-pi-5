@@ -230,10 +230,6 @@ The robot can be manually controlled and visualized in RViz while the planned mo
 
 The gripper can be controlled through the configured gripper joint and mimic joint.
 
-### Manual Pick-and-Place
-
-The arm has been manually positioned to pick up and move a green ball using RViz and the real hardware.
-
 ## Media Folder
 
 The recommended media structure is:
