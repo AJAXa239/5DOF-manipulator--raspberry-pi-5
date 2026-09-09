@@ -5,17 +5,12 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 
 ## Physical Robot Demonstration
 
-Add an image of the physical robotic arm here:
-
-```markdown
 ![Physical Robotic Arm](ezgif-frame-001.jpg)
-```
 
-Add a GIF of the physical robot moving here:
+# Demo
 
-```markdown
 ![Physical Robot Demonstration](107987.gif)
-```
+
 
 ## RViz Demonstration
 
