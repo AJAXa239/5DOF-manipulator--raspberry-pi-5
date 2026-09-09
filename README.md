@@ -3,6 +3,34 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 
 ## Project Overview
 
+## Physical Robot Demonstration
+
+Add an image of the physical robotic arm here:
+
+```markdown
+![Physical Robotic Arm](images/physical_robot.jpg)
+```
+
+Add a GIF of the physical robot moving here:
+
+```markdown
+![Physical Robot Demonstration](images/physical_robot_demo.gif)
+```
+
+## RViz Demonstration
+
+Add an image of the RViz setup here:
+
+```markdown
+![RViz Demonstration](images/rviz_demo.png)
+```
+
+Add a GIF showing manual planning and execution in RViz here:
+
+```markdown
+![RViz Motion Planning Demonstration](images/rviz_demo.gif)
+```
+
 This project focuses on controlling a 5DOF robotic arm using ROS 2 Jazzy and a Raspberry Pi 5. The Raspberry Pi communicates with the servo motors through a PCA9685 PWM driver, while the laptop is used for MoveIt 2 motion planning and RViz visualization.
 
 The project currently supports:
@@ -214,34 +242,6 @@ The gripper can be controlled through the configured gripper joint and mimic joi
 ### Manual Pick-and-Place
 
 The arm has been manually positioned to pick up and move a green ball using RViz and the real hardware.
-
-## Physical Robot Demonstration
-
-Add an image of the physical robotic arm here:
-
-```markdown
-![Physical Robotic Arm](images/physical_robot.jpg)
-```
-
-Add a GIF of the physical robot moving here:
-
-```markdown
-![Physical Robot Demonstration](images/physical_robot_demo.gif)
-```
-
-## RViz Demonstration
-
-Add an image of the RViz setup here:
-
-```markdown
-![RViz Demonstration](images/rviz_demo.png)
-```
-
-Add a GIF showing manual planning and execution in RViz here:
-
-```markdown
-![RViz Motion Planning Demonstration](images/rviz_demo.gif)
-```
 
 ## Media Folder
 
