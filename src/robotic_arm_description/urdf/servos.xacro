@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ============================================================
+       SERVO VISUAL MACROS  (visual-only, no collision / no inertia)
+       Marks actuator locations. Real link inertia/collision unaffected.
+       ============================================================ -->
+
+  <material name="servo_black"><color rgba="0.05 0.05 0.05 1.0"/></material>
+
+  <!-- MG995 / MG996R : real mesh, recentred on the output shaft.
+       Mesh frame: +Z = shaft (up), shaft at XY origin, body bottom z=0,
+       body offset to -X. Caller's xyz/rpy places the shaft. -->
+  <xacro:macro name="servo_mg995" params="xyz:='0 0 0' rpy:='0 0 0'">
+    <visual>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <geometry>
+        <mesh filename="package://robotic_arm_description/meshes/MG995_Servo.STL"
+              scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="servo_black"/>
+    </visual>
+  </xacro:macro>
+
+  <!-- SG90 micro servo : ~23 x 12 x 29 mm (box until you send a mesh) -->
+  <xacro:macro name="servo_sg90" params="xyz:='0 0 0' rpy:='0 0 0'">
+    <visual>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <geometry>
+        <box size="0.023 0.012 0.029"/>
+      </geometry>
+      <material name="servo_black"/>
+    </visual>
+  </xacro:macro>
+
+</robot>

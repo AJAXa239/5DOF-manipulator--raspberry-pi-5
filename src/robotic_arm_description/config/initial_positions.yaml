@@ -1,0 +1,10 @@
+initial_positions:
+  # Physical servo home angles:
+  # ch10=110°, ch11=110°, ch12=10°, ch13=110°, ch14=110°, ch15=110°.
+  # In RViz/ROS these homes are represented as 0 rad offsets.
+  joint_1: 0.0
+  joint_2: 0.0
+  joint_3: 0.0
+  joint_4: 0.0
+  joint_5: 0.0
+  joint_6: 0.0
