@@ -13,20 +13,13 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 
 ![Physical Robot Demonstration](107987.gif)
 
-
 ## RViz Demonstration
 
-Add an image of the RViz setup here:
+![RViz Demonstration](IMG-20260906-WA0000.jpg)
 
-```markdown
-![RViz Demonstration](images/rviz_demo.png)
-```
-
-Add a GIF showing manual planning and execution in RViz here:
-
-```markdown
+# Demo
 ![RViz Motion Planning Demonstration](images/rviz_demo.gif)
-```
+
 
 This project focuses on controlling a 5DOF robotic arm using ROS 2 Jazzy and a Raspberry Pi 5. The Raspberry Pi communicates with the servo motors through a PCA9685 PWM driver, while the laptop is used for MoveIt 2 motion planning and RViz visualization.
 
