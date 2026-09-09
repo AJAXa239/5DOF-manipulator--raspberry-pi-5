@@ -62,7 +62,7 @@ Raspberry Pi 5
 
 ## Hardware Used
 
-- Raspberry Pi 5
+- Raspberry Pi 5 with 2GB Ram
 - 5DOF robotic arm
 - MG995 servo motors
 - PCA9685 16-channel PWM servo driver
