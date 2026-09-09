@@ -14,7 +14,7 @@ Add an image of the physical robotic arm here:
 Add a GIF of the physical robot moving here:
 
 ```markdown
-![Physical Robot Demonstration](images/physical_robot_demo.gif)
+![Physical Robot Demonstration](107987.gif)
 ```
 
 ## RViz Demonstration
