@@ -283,5 +283,5 @@ Copy your images or GIFs into that folder and use the filenames referenced in th
 
 **Ajay Bisht**
 
-Robotics and Innovation Projects
+Robotic Project
 
