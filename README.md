@@ -48,7 +48,10 @@ Contains:
 </p>
 
 # Demo
-![RViz Motion Planning Demonstration](107909.gif)
+| RViz Visualization | Pick and place |
+|:---:|:---:|:---:|
+| ![RViz demo](107909.gif) | ![pick_and_place](109635.gif) |
+
 
 ### `pick_place_arm`
 
