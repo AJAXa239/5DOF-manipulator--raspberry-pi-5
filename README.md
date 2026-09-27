@@ -48,8 +48,8 @@ Contains:
 </p>
 
 # Demo
-| RViz Visualization | Pick and place |
-|:---:|:---:|:---:|
+| RViz Visualization & Pick and place demo |
+
 | ![RViz demo](107909.gif) | ![pick_and_place](109635.gif) |
 
 
