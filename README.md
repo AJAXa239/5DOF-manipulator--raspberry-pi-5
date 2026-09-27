@@ -51,7 +51,7 @@ Contains:
 ## RViz Visualization 
 ![RViz demo](107909.gif) 
  
-## Pick and place demo 
+## Performing Pick and place task
  ![pick_and_place](109635.gif) 
 
 
