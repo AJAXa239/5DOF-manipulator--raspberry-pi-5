@@ -308,8 +308,3 @@ Pick and Place
 
 This will allow the system to detect a ball even when its position changes and calculate a new robot target instead of relying on a fixed hard-coded pick position.
 
-## Key Interview Explanation
-
-A concise way to describe the project:
-
-> I developed a 5-DOF robotic arm pick-and-place system using ROS 2 Jazzy and MoveIt 2. I integrated ros2_control for real-hardware trajectory execution and created a custom ROS 2 node using MoveGroupInterface for the arm and gripper. The motion sequence includes initialization, pick, gripper actuation, a controlled Joint-2 lift, movement to the place position, release, and post-place positioning. During development, I also debugged controller execution and MoveIt launch conflicts, including an issue where multiple MoveIt instances were being launched. The final system uses one real-hardware launch and one pick-and-place launch for execution.
