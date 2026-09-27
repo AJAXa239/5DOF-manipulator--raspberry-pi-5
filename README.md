@@ -1,7 +1,36 @@
-# 5DOF-manipulator- Raspberry-pi-5
-A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, MoveIt 2, RViz, and real hardware control.
+# 5-DOF Robotic Arm — ROS 2 MoveIt 2 Pick-and-Place
 
 ## Project Overview
+
+This project implements a 5-DOF robotic arm using ROS 2 Jazzy, MoveIt 2, ros2_control, and real-hardware servo control. The system was developed to move the arm from a defined initial configuration, perform a pick operation, lift the object, move to a defined place position, release the object, and return to the required configuration.
+
+The arm is controlled through MoveIt 2 motion planning, while ros2_control and the configured arm controller handle trajectory execution on the hardware.
+
+## Main Components
+
+- Raspberry Pi 5 / real robotic-arm hardware
+- 5-DOF robotic arm
+- ROS 2 Jazzy
+- MoveIt 2
+- ros2_control
+- Joint trajectory controller
+- Custom ROS 2 `pick_place_arm` package
+- Custom `robotic_arm_description` package
+- RViz for visualization and MoveIt planning
+
+## ROS 2 Packages
+
+### `robotic_arm_description`
+
+Contains:
+
+- URDF/Xacro robot description
+- Servo and arm meshes
+- ros2_control configuration
+- Controller configuration
+- Initial joint positions
+- RViz configuration
+- Real-hardware launch file
 
 ## Physical Robot Demonstration
 
@@ -21,267 +50,263 @@ A ROS 2-based robotic arm project using a Raspberry Pi 5, PCA9685 servo driver, 
 # Demo
 ![RViz Motion Planning Demonstration](107909.gif)
 
+### `pick_place_arm`
 
-This project focuses on controlling a 5DOF robotic arm using ROS 2 Jazzy and a Raspberry Pi 5. The Raspberry Pi communicates with the servo motors through a PCA9685 PWM driver, while the laptop is used for MoveIt 2 motion planning and RViz visualization.
+Contains the custom pick-and-place execution logic:
 
-The project currently supports:
+- `src/pick_place_node.cpp`
+- `launch/pick_place.launch.py`
+- `CMakeLists.txt`
+- `package.xml`
 
-- Real-time control of the robotic arm servos
-- ROS 2 hardware interface for the Raspberry Pi
-- PCA9685-based PWM servo control
-- MoveIt 2 motion planning
-- RViz visualization and manual joint control
-- Real hardware trajectory execution
-- Gripper control
-- Manual pick-and-place demonstration using a green ball
-- Adjustable servo motion limits and hardware angle mapping
+The node uses MoveIt 2's `MoveGroupInterface` for the arm and gripper planning groups.
 
-## System Architecture
+## Execution Sequence
 
-```text
-Laptop
-├── MoveIt 2
-├── RViz
-├── Robot model and planning configuration
-└── Motion planning and trajectory execution
-             │
-             │ ROS 2 communication
-             ▼
-Raspberry Pi 5
-├── ROS 2 Jazzy
-├── ros2_control hardware interface
-├── Robotic arm hardware node
-└── PCA9685 PWM servo driver
-             │
-             ▼
-       Servo Motors
-             │
-             ▼
-       5DOF Robotic Arm
-```
+The final setup uses two launch commands.
 
-## Hardware Used
-
-- Raspberry Pi 5 with 2GB Ram
-- 5DOF robotic arm
-- MG995 servo motors
-- PCA9685 16-channel PWM servo driver
-- External servo power supply
-- Laptop running Pop!_OS
-- Camera for future computer-vision integration
-- Green ball for pick-and-place testing
-
-## Software Used
-
-- Ubuntu Server 24.04 on Raspberry Pi 5
-- Pop!_OS on laptop
-- ROS 2 Jazzy
-- MoveIt 2
-- RViz 2
-- Gazebo
-- C++17
-- Python
-- OpenCV — planned for the next stage
-- Git and GitHub
-
-## Repository Structure
-
-```text
-github_ws/
-└── src/
-    ├── robotic_arm_description/
-    │   ├── urdf/
-    │   ├── launch/
-    │   └── config/
-    │
-    ├── robotic_arm_hardware/
-    │   ├── src/
-    │   ├── include/
-    │   ├── CMakeLists.txt
-    │   └── package.xml
-    │
-    └── robotic_arm_moveit/
-        ├── config/
-        ├── launch/
-        └── package.xml
-```
-
-## Servo Channel Mapping
-
-The current servo channel mapping is:
-
-| Joint | Servo Channel | Function |
-|---|---:|---|
-| Joint 1 | 10 | Waist |
-| Joint 2 | 11 | Shoulder |
-| Joint 3 | 12 | Elbow |
-| Joint 4 | 13 | Wrist pitch |
-| Joint 5 | 14 | Wrist roll |
-| Joint 6 | 15 | Gripper |
-
-The servo angles are converted into ROS joint positions using the configured home angles, direction values, and angle limits.
-
-## Servo Configuration
-
-The current home-angle configuration is:
-
-```cpp
-home_angles_ = {
-    110.0,
-    110.0,
-    10.0,
-    110.0,
-    110.0,
-    110.0
-};
-```
-
-The hardware interface also includes:
-
-- Servo angle limits
-- Servo direction correction
-- Joint-position to servo-angle conversion
-- Servo-angle to joint-position feedback conversion
-- Incremental servo movement
-- PCA9685 PWM output control
-
-The servo movement step was adjusted to:
-
-```cpp
-constexpr double max_step_degrees = 7.5;
-```
-
-Trajectory limits were also adjusted in the controller configuration:
-
-```yaml
-max_velocity: 7.5
-has_acceleration_limits: true
-max_acceleration: 7.5
-```
-
-These values are being tested carefully because servo speed, power supply stability, mechanical load, and update frequency can affect vibration and smoothness.
-
-## ROS 2 Workspace Setup
-
-The working ROS 2 workspace is:
+### Terminal 1 — Start the real hardware
 
 ```bash
-~/ros2_ws
-```
-
-Build the workspace using:
-
-```bash
-cd ~/ros2_ws
-colcon build
-source install/setup.bash
-```
-
-## Running the Real Hardware
-
-On the Raspberry Pi:
-
-```bash
-source /opt/ros/jazzy/setup.bash
-source ~/ros2_ws/install/setup.bash
 ros2 launch robotic_arm_description real_hardware.launch.py
 ```
 
-This starts the real hardware interface, robot state publisher, ros2_control, and the configured controllers.
+This starts the robot hardware interface and controllers.
 
-## Running MoveIt and RViz
-
-On the laptop:
+### Terminal 2 — Start Pick and Place
 
 ```bash
-source /opt/ros/jazzy/setup.bash
-source ~/ros2_ws/install/setup.bash
-ros2 launch robotic_arm_moveit moveit.launch.py
+ros2 launch pick_place_arm pick_place.launch.py execute:=true
 ```
 
-RViz can then be used to:
+This starts the custom pick-and-place node and enables trajectory execution.
 
-- View the robot model
-- Move joints manually
-- Set target poses
-- Plan trajectories
-- Execute trajectories on the real robotic arm
-- Test gripper movement
+Only these two launch commands are required for the final real-hardware execution. MoveIt should not be launched a second time separately because the pick-and-place launch already starts/uses the required MoveIt components.
 
-## Current Achievements
+## Pick-and-Place Motion Sequence
 
-### Real Hardware Control
+The custom node follows a structured sequence:
 
-The Raspberry Pi successfully controls the robotic arm servos through the PCA9685 PWM driver.
+1. Move the arm to the initial position.
+2. Move toward the pick position.
+3. Lower the arm to the object.
+4. Close the gripper.
+5. Lift the arm.
+6. Move toward the place position.
+7. Lower/position the arm at the place location.
+8. Open the gripper to release the object.
+9. Return the arm to the required post-place configuration.
 
-### ROS 2 Integration
+### Important Joint-2 Motion
 
-The robotic arm is integrated with ROS 2 Jazzy using a custom hardware interface and ros2_control.
+A specific requirement of the motion sequence is that **only Joint 2 is moved to zero when the arm needs to lift after picking**.
 
-### MoveIt 2 Integration
+The other joints should keep their required positions instead of being reset to zero.
 
-MoveIt 2 successfully plans and executes trajectories on the real robotic arm.
+After the lift operation, Joint 2 is returned to its configured/default value for the place-position movement.
 
-### RViz Demonstration
+This prevents the entire arm from unnecessarily moving to zero and gives the desired controlled pick → lift → place sequence.
 
-The robot can be manually controlled and visualized in RViz while the planned movement is executed on the physical arm.
+## Motion Planning
 
-### Gripper Control
+MoveIt 2 uses the configured `arm` planning group and OMPL for motion planning.
 
-The gripper can be controlled through the configured gripper joint and mimic joint.
-
-## Media Folder
-
-The recommended media structure is:
+The logs showed:
 
 ```text
-github_ws/
-├── README.md
-├── images/
-│   ├── physical_robot.jpg
-│   ├── physical_robot_demo.gif
-│   ├── rviz_demo.png
-│   └── rviz_demo.gif
-└── src/
-    ├── robotic_arm_description/
-    ├── robotic_arm_hardware/
-    └── robotic_arm_moveit/
+Planner configuration 'arm' will use planner 'geometric::RRTConnect'
 ```
 
-Create the images folder with:
+The planned trajectory is then sent to:
+
+```text
+arm_controller
+```
+
+The controller executes the generated joint trajectory on the real arm.
+
+## Controller Execution
+
+The execution chain is:
+
+```text
+Pick-and-Place Node
+        |
+        v
+MoveGroupInterface
+        |
+        v
+MoveIt 2
+        |
+        v
+OMPL Motion Planner
+        |
+        v
+Trajectory
+        |
+        v
+arm_controller
+        |
+        v
+ros2_control
+        |
+        v
+Real Servo Hardware
+```
+
+## Important Problems Encountered
+
+### 1. MoveIt Was Started Twice
+
+One major execution problem came from launching MoveIt more than once.
+
+The final solution is to use only:
 
 ```bash
-mkdir -p ~/github_ws/images
+ros2 launch robotic_arm_description real_hardware.launch.py
 ```
 
-Copy your images or GIFs into that folder and use the filenames referenced in this README.
+and:
 
-## Future Work
+```bash
+ros2 launch pick_place_arm pick_place.launch.py execute:=true
+```
 
-- Automatic pick-and-place using a ROS 2 Python node
-- Camera calibration
-- Green-ball detection using OpenCV
-- Pixel-to-world coordinate conversion
-- TF2-based camera-to-robot transformations
-- Automatic object localization
-- Vision-guided grasping
-- Multiple-object sorting
-- Improved servo smoothing and vibration reduction
-- Gazebo simulation of the complete robotic arm
-- Integration of the robotic arm with a mobile robot
+Launching an additional MoveIt instance created conflicts and contributed to trajectory execution failures.
 
-## Safety Notes
+### 2. Initial Position Execution
 
-- Use an external power supply for the servos.
-- Connect the Raspberry Pi ground and servo power-supply ground together.
-- Keep the arm’s workspace clear during testing.
-- Test new angle and speed limits gradually.
-- Keep an emergency power cutoff accessible.
-- Do not command the servos beyond their safe mechanical range.
+The initial-position planning worked, but an earlier execution attempt showed:
 
-## Author
+```text
+Controller handle arm_controller reports status PREEMPTED
+```
 
-**Ajay Bisht**
+and:
 
-Robotic Project
+```text
+MoveGroupInterface::execute() failed or timeout reached
+```
 
+The later execution log showed the controller successfully completing the trajectory:
+
+```text
+Controller 'arm_controller' successfully finished
+```
+
+and:
+
+```text
+Completed trajectory execution with status SUCCEEDED
+```
+
+This confirmed that the controller and MoveIt execution pipeline were capable of executing the planned trajectory successfully.
+
+### 3. Joint-2 Lift Requirement
+
+An important motion-planning correction was made so that the lift phase does not reset every joint.
+
+The intended behavior is:
+
+```text
+PICK
+  ↓
+Close gripper
+  ↓
+Move Joint 2 → 0°
+  ↓
+LIFT
+  ↓
+Restore Joint 2 → place/default value
+  ↓
+Move to PLACE
+  ↓
+Open gripper
+```
+
+Only Joint 2 should change to zero during this specific lift step.
+
+## Robot Description Warnings
+
+MoveIt reported several links with visual geometry but no collision geometry, for example:
+
+```text
+elbow_servo_link
+wrist_servo_link
+arm03_servo_link
+gripper_base_link
+gripper_servo_link
+gear_link
+gear2_link
+shoulder_servo_link
+```
+
+These warnings mean that those links do not currently have explicit collision geometry in the URDF.
+
+For a more robust final system, collision meshes or primitive collision geometry should be added to these links.
+
+## MoveIt / RViz Notes
+
+RViz also produced messages such as:
+
+```text
+Action server: /recognize_objects not available
+```
+
+This is related to the optional object-recognition functionality and is not itself the core pick-and-place execution mechanism.
+
+The important components for this project are the arm planning group, MoveIt motion planning, the gripper group, and the trajectory controller.
+
+## Final Project Result
+
+The project progressed from basic real-hardware arm control to a ROS 2 + MoveIt 2 based automated pick-and-place pipeline.
+
+The system now has:
+
+- A ROS 2 robot description
+- ros2_control hardware interface
+- MoveIt 2 planning
+- OMPL/RRTConnect motion planning
+- Arm trajectory execution
+- Gripper control
+- Custom pick-and-place node
+- Initial-position handling
+- Pick sequence
+- Controlled Joint-2 lift
+- Place sequence
+- Release operation
+- Real-hardware execution
+
+## Future Development
+
+The next planned stage is computer-vision-based object detection using a mobile-phone camera.
+
+The planned architecture is:
+
+```text
+Mobile Phone Camera
+        ↓
+IP Webcam Stream
+        ↓
+ROS 2 Camera Publisher
+        ↓
+OpenCV Object Detection
+        ↓
+Object Pixel Coordinates
+        ↓
+Camera-to-Robot Coordinate Mapping
+        ↓
+Target Robot Position
+        ↓
+MoveIt 2 Motion Planning
+        ↓
+Pick and Place
+```
+
+This will allow the system to detect a ball even when its position changes and calculate a new robot target instead of relying on a fixed hard-coded pick position.
+
+## Key Interview Explanation
+
+A concise way to describe the project:
+
+> I developed a 5-DOF robotic arm pick-and-place system using ROS 2 Jazzy and MoveIt 2. I integrated ros2_control for real-hardware trajectory execution and created a custom ROS 2 node using MoveGroupInterface for the arm and gripper. The motion sequence includes initialization, pick, gripper actuation, a controlled Joint-2 lift, movement to the place position, release, and post-place positioning. During development, I also debugged controller execution and MoveIt launch conflicts, including an issue where multiple MoveIt instances were being launched. The final system uses one real-hardware launch and one pick-and-place launch for execution.
